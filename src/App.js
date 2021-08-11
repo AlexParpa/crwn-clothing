@@ -2,16 +2,23 @@ import React from 'react';
 import HomePage from './pages/homepage/homepage.component';
 import { Route, Switch } from 'react-router-dom';
 import ShopPage from './pages/shop/shop.component';
+import Header from './components/header/header.component.jsx';
 import './App.css';
+
 
 
 function App() {
   return (
     <div>
+
+      {/*PLACE OUTSIDE SWITCH BEAUSE WE ALWAYS WANT THIS TO BE RENDERED .... on all pages*/}
+      <Header/>
+
       {/*Switch doesn't render anything else after the first match
           - ex: if exact is false and we access /hats only homepage will render
        */}
       <Switch>
+
         {/* Route is a component that takes the following arguments: 
           - exact: 
               - true-> this path must be exactly what was specified
@@ -22,8 +29,9 @@ function App() {
 
           => it renders components as if we would access a new pages
         */}
-        <Route exact path='/' component={HomePage}/>
+        <Route exact path='/' component={HomePage}/>        
         <Route path='/shop' component={ShopPage}/>
+
       </Switch>
     </div>
   );
