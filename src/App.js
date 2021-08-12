@@ -4,39 +4,63 @@ import { Route, Switch } from 'react-router-dom';
 import ShopPage from './pages/shop/shop.component';
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.components';
 import Header from './components/header/header.component.jsx';
+import { auth } from './firebase/firebase.utils';
 import './App.css';
 
 
 
-function App() {
-  return (
-    <div>
+class App extends React.Component {
+  constructor() {
+    super();
 
-      {/*PLACE OUTSIDE SWITCH BEAUSE WE ALWAYS WANT THIS TO BE RENDERED .... on all pages*/}
-      <Header/>
+    this.state = {
+      currentUser: null
+    }
+  }
 
-      {/*Switch doesn't render anything else after the first match
-          - ex: if exact is false and we access /hats only homepage will render
-       */}
-      <Switch>
+  unsubscribeFromAuth = null;
 
-        {/* Route is a component that takes the following arguments: 
-          - exact: 
-              - true-> this path must be exactly what was specified
-              - false -> if it contains (word wrap) whats written in the path arg it will still render
-                  /hats/ = /hats = /hats/something != /hat 
-          - path: the URL path from the current place we are at
-          - component: the component we want to render
+  componentDidMount() {
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(user => {
+      this.setState({currentUser: user})
+      console.log(user);
+    })
+  }
 
-          => it renders components as if we would access a new pages
-        */}
-        <Route exact path='/' component={HomePage}/>        
-        <Route path='/shop' component={ShopPage}/>
-        <Route path='/signin' component={SignInAndSignUpPage}/>
+  componentWillUnmount() {
+    this.unsubscribeFromAuth();
+  }
 
-      </Switch>
-    </div>
-  );
+  render() {
+    return (
+      <div>
+
+        {/*PLACE OUTSIDE SWITCH BEAUSE WE ALWAYS WANT THIS TO BE RENDERED .... on all pages*/}
+        <Header currentUser={this.state.currentUser}/>
+
+        {/*Switch doesn't render anything else after the first match
+            - ex: if exact is false and we access /hats only homepage will render
+          */}
+        <Switch>
+
+          {/* Route is a component that takes the following arguments: 
+            - exact: 
+                - true-> this path must be exactly what was specified
+                - false -> if it contains (word wrap) whats written in the path arg it will still render
+                    /hats/ = /hats = /hats/something != /hat 
+            - path: the URL path from the current place we are at
+            - component: the component we want to render
+
+            => it renders components as if we would access a new pages
+          */}
+          <Route exact path='/' component={HomePage}/>        
+          <Route path='/shop' component={ShopPage}/>
+          <Route path='/signin' component={SignInAndSignUpPage}/>
+
+        </Switch>
+      </div>
+    );
+  }
 }
 
 export default App;
