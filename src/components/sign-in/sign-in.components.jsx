@@ -2,7 +2,7 @@ import React from 'react';
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component.jsx';
 import './sign-in.styles.scss';
-import { signInWithGit, signInWithGoogle } from '../../firebase/firebase.utils';
+import { signInWithGoogle } from '../../firebase/firebase.utils';
 
 class SignIn extends React.Component {
     constructor(props) {
@@ -28,7 +28,7 @@ class SignIn extends React.Component {
     render () {
         return (
             <div className='sign-in'>
-                <h1> I already have an account</h1>
+                <h1 className='title'> I already have an account</h1>
                 <span>Sign in with your email and password</span>
 
                 <form onSubmit={this.handleSubmit}>
