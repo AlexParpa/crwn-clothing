@@ -9,15 +9,15 @@ const config = {
     storageBucket: "crown-db-e56ca.appspot.com",
     messagingSenderId: "686765516104",
     appId: "1:686765516104:web:3ab661858820978c073f7d"
-  };
+};
 
-  firebase.initializeApp(config);
-  export const auth = firebase.auth();
-  export const firestore = firebase.firestore();
+firebase.initializeApp(config);
+export const auth = firebase.auth();
+export const firestore = firebase.firestore();
 
-  var provider = new firebase.auth.GoogleAuthProvider();
-  provider.setCustomParameters({prompt: 'select_account'});
-  export const signInWithGoogle = () => auth.signInWithPopup(provider);
+var provider = new firebase.auth.GoogleAuthProvider();
+provider.setCustomParameters({prompt: 'select_account'});
+export const signInWithGoogle = () => auth.signInWithPopup(provider);
 
 export const createUserProfileDocument = async (userAuth, additionalData) => {
     if (!userAuth) return;
@@ -43,4 +43,4 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
     return userRef;
 }
 
-  export default firebase;
+export default firebase;
